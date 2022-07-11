@@ -33,6 +33,9 @@
 					class="form-control mb-4 col-4" placeholder="enter password">
 			</div>
 			<select name="roles" style="width: 200px;">
+				<!--<c:forEach items="${user.roles}" var="roles">
+					<option value="${roles.name}">${roles.name}</option>
+				</c:forEach>-->
 				<option value="ADMIN">ADMIN</option>
 				<option value="USER">USER</option>
 			</select><br>

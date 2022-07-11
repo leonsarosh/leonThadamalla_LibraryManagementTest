@@ -37,20 +37,21 @@ public class LibrarymanagementApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		List<Book> books = bookRepository.findByTitleContainsAndAuthorContainsAllIgnoreCase("java", "james");
-		System.out.println("books" + books);
-		Role role = new Role();
-		role.setName("TEST");
-		List<Role> roles = new ArrayList<>();
+//		List<Book> books = bookRepository.findByTitleContainsAndAuthorContainsAllIgnoreCase("java", "james");
+//		System.out.println("books" + books);
+//		Role role = new Role();
+//		role.setName("TEST");
+//		Role role = roleRepository.findById(1).get();
+//		List<Role> roles = new ArrayList<>();
 //		roles.add(role);
 //		User user = new User("user3", userService.passwordencode("1234"), roles );
 //		System.out.println("user3" + user);
-//		userRepository.save(user);
-		User user2 = userRepository.findById(5).get();
-		List<Role> roles2 = user2.getRoles();
-		roles2.add(role);
-		System.out.println("user3" + user2);
-		userRepository.saveAndFlush(user2);
+//		userRepository.saveAndFlush(user);
+//		User user2 = userRepository.findById(5).get();
+//		List<Role> roles2 = user2.getRoles();
+//		roles2.add(role);
+//		System.out.println("user3" + user2);
+//		userRepository.saveAndFlush(user2);
 	}
 
 }

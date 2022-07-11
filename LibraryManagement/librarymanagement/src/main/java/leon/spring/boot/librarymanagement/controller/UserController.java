@@ -2,8 +2,10 @@ package leon.spring.boot.librarymanagement.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +33,7 @@ public class UserController {
 	@RequestMapping("/showFormForAdd")
 	public String showFormForAdd(Model model) {
 		User user = new User();
-		model.addAttribute("book", user);
+		model.addAttribute("user", user);
 		model.addAttribute("mode", "Add");
 		return "user-reg-form";
 	}
@@ -39,60 +41,10 @@ public class UserController {
 	@RequestMapping("/showFormForUpdate")
 	public String showFormForUpdate(Model model, @RequestParam("userId") int id) {
 		User user = userService.findById(id);
-		model.addAttribute("book", user);
+		System.out.println("user fetched is "+user);
+		model.addAttribute("user", user);
 		model.addAttribute("mode", "Update");
-		return "user-reg-form";
-	}
-
-	// Read Form data
-	@PostMapping("/saveUser")
-	public String saveUser(@RequestParam("id") int id, @RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("role1") String role1,
-			@RequestParam("role2") String role2) {
-		User user = null;
-		if (id == 0) {
-			List<Role> roles= new ArrayList<>();
-			if(role1=="ADMIN" && role2=="USER") {
-				Role role = new Role(role1);
-				roles.add(role);
-//				role=new Role(2,role2);
-//				roles.add(role);
-			} else if(role2=="USER" && role1=="") {
-				Role role = new Role(role2);
-				roles.add(role);
-			} else if (role1=="ADMIN" && role2=="") {
-				Role role = new Role(role1);
-				roles.add(role);
-			} else if (role1=="" && role2=="") {
-				return "redirect:list";
-			}
-			String newPassword = userService.passwordencode(password);
-			user = new User(username, newPassword, roles);
-		} else {
-			user = userService.findById(id);
-			user.setUsername(username);
-			String newPassword = userService.passwordencode(password);
-			user.setPassword(newPassword);
-			List<Role> roles= new ArrayList<>();
-			if(role1=="ADMIN" && role2=="USER") {
-				Role role = new Role(role1);
-				roles.add(role);
-//				role=new Role(role2);
-//				roles.add(role);
-			} else if(role2=="USER" && role1=="") {
-				Role role = new Role(role2);
-				roles.add(role);
-			} else if (role1=="ADMIN" && role2=="") {
-				Role role = new Role(role1);
-				roles.add(role);
-			} else if (role1=="" && role2=="") {
-				return "redirect:list";
-			}
-			user.setRoles(roles);
-			userService.saveUser(user);
-			return "redirect:list";
-		}
-		return "redirect:list";
+		return "user-upt-form";
 	}
 
 	@RequestMapping("/delete")
@@ -111,6 +63,55 @@ public class UserController {
 		List<User> users = userService.searchByUsername(username);
 		model.addAttribute("users", users);
 		return "user-list";
+	}
+
+	@PostMapping("/saveUser")
+	public String saveUser(@Nullable @RequestParam(value = "userId") int id,
+			@RequestParam("username") String username, @RequestParam("password") String password,
+			@RequestParam("roles") String role) {
+		if (id == 0) {
+			if (role=="ADMIN") {
+				Role role1 = new Role(1, role);
+				List<Role> roles = new ArrayList<>();
+				roles.add(role1);
+				User user = new User(username, userService.passwordencode(password), roles);
+				System.out.println(user);
+				userService.save(user);
+				return "redirect:list";
+			} else {
+				Role role1 = new Role(2, role);
+				List<Role> roles = new ArrayList<>();
+				roles.add(role1);
+				User user = new User(username, userService.passwordencode(password), roles);
+				System.out.println(user);
+				userService.save(user);
+				return "redirect:list";
+			}
+		} else {
+			if(role=="ADMIN") {
+				User user = userService.findById(id);
+				user.setUsername(username);
+				user.setPassword(userService.passwordencode(password));
+				Role role1 = new Role(1, role);
+				List<Role> roles = new ArrayList<>();
+				roles.add(role1);
+				user.setRoles(roles);
+				System.out.println(user);
+				userService.save(user);
+				return "redirect:list";
+			} else {
+				User user = userService.findById(id);
+				user.setUsername(username);
+				user.setPassword(userService.passwordencode(password));
+				Role role1 = new Role(2, role);
+				List<Role> roles = new ArrayList<>();
+				roles.add(role1);
+				user.setRoles(roles);
+				System.out.println(user);
+				userService.save(user);
+				return "redirect:list";	
+			}
+		}
 	}
 
 }

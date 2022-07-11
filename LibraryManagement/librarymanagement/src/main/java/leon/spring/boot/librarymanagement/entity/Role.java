@@ -27,9 +27,9 @@ public class Role {
 		this.name = name;
 	}
 
-//	public Role(int id, String name) {
-//		super();
-//		this.id = id;
-//		this.name = name;
-//	}
+	public Role(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 }

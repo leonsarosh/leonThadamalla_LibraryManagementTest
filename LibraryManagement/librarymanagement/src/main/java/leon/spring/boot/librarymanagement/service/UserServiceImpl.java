@@ -3,7 +3,7 @@ package leon.spring.boot.librarymanagement.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +41,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void saveUser(User user) {
+	public void save(User user) {
 		// TODO Auto-generated method stub
-		userRepo.save(user);
+		userRepo.saveAndFlush(user);
 	}
 
 	@Override
@@ -55,9 +55,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String passwordencode(String password) {
 		// TODO Auto-generated method stub
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		PasswordEncoder encoder = new BCryptPasswordEncoder(12);
 		String encodedPassword = encoder.encode(password);
 		return encodedPassword;
 	}
-
+	
 }

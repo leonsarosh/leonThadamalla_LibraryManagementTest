@@ -1,6 +1,7 @@
 package leon.spring.boot.librarymanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import leon.spring.boot.librarymanagement.entity.User;
 
@@ -9,8 +10,7 @@ public interface UserService {
     public User findById(int id);
     public void deleteById(int id);
     public User findByUsername(String username);
-    public void saveUser(User user);
+    public void save(User user);
     public List<User> searchByUsername(String username);
     public String passwordencode(String password);
-
 }

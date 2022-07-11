@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,26 +22,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private int userid=0;
 	@Column(name = "username")
 	private String username;
 	@Column(name = "password")
 	private String password;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
-
-//	public User(Long id, String username, String password, List<Role> roles) {
-//		super();
-//		this.id = id;
-//		this.username = username;
-//		this.password = password;
-//		this.roles = roles;
-//	}
 
 	public User(String username, String password, List<Role> roles) {
 		super();
@@ -48,4 +42,6 @@ public class User {
 		this.password = password;
 		this.roles = roles;
 	}
+	
+	
 }

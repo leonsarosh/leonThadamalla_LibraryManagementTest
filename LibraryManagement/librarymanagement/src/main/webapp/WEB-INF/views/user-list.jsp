@@ -38,13 +38,13 @@
 			<tbody>
 				<c:forEach items="${users}" var="user">
 					<tr>
-						<td><c:out value="${user.id}" /></td>
+						<td><c:out value="${user.userid}" /></td>
 						<td><c:out value="${user.username}" /></td>
 						<td>
 							<!-- Add "update" button/link --> <a
-							href="showFormForUpdate?userId=${user.id}"
+							href="showFormForUpdate?userId=${user.userid}"
 							class="btn btn-info btn-sm"> Update </a> <!-- Add "delete" button/link -->
-							<a href="delete?userId=${user.id}" class="btn btn-danger btn-sm"
+							<a href="delete?userId=${user.userid}" class="btn btn-danger btn-sm"
 							onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
 								Delete </a>
 						</td>
